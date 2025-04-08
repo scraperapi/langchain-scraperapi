@@ -1,27 +1,70 @@
 from typing import Type
 
-from langchain_scraperapi.tools import ScraperAPITool
+from langchain_scraperapi.tools import (
+    ScraperAPITool,
+    ScraperAPIGoogleSearchTool,
+    ScraperAPIAmazonSearchTool,
+)
 from langchain_tests.unit_tests import ToolsUnitTests
 
 
-class TestParrotMultiplyToolUnit(ToolsUnitTests):
+class TestScraperAPIToolUnit(ToolsUnitTests):
     @property
     def tool_constructor(self) -> Type[ScraperAPITool]:
         return ScraperAPITool
 
     @property
     def tool_constructor_params(self) -> dict:
-        # if your tool constructor instead required initialization arguments like
-        # `def __init__(self, some_arg: int):`, you would return those here
-        # as a dictionary, e.g.: `return {'some_arg': 42}`
         return {}
 
     @property
     def tool_invoke_params_example(self) -> dict:
-        """
-        Returns a dictionary representing the "args" of an example tool call.
+        return {
+            "url": "https://example.com",
+            "output_format": "text",
+            "country_code": "us",
+            "device_type": "desktop",
+            "premium": False,
+            "render": True,
+            "keep_headers": False
+        }
 
-        This should NOT be a ToolCall dict - i.e. it should not
-        have {"name", "id", "args"} keys.
-        """
-        return {"a": 2, "b": 3}
+
+class TestScraperAPIGoogleSearchToolUnit(ToolsUnitTests):
+    @property
+    def tool_constructor(self) -> Type[ScraperAPIGoogleSearchTool]:
+        return ScraperAPIGoogleSearchTool
+
+    @property
+    def tool_constructor_params(self) -> dict:
+        return {}
+
+    @property
+    def tool_invoke_params_example(self) -> dict:
+        return {
+            "query": "langchain",
+            "tld": "com",
+            "country_code": "us",
+            "output_format": "json",
+            "num": 5,
+        }
+
+
+class TestScraperAPIAmazonSearchToolUnit(ToolsUnitTests):
+    @property
+    def tool_constructor(self) -> Type[ScraperAPIAmazonSearchTool]:
+        return ScraperAPIAmazonSearchTool
+
+    @property
+    def tool_constructor_params(self) -> dict:
+        return {}
+
+    @property
+    def tool_invoke_params_example(self) -> dict:
+        return {
+            "query": "monitor",
+            "tld": "com",
+            "country_code": "us",
+            "output_format": "json",
+            "page": 1,
+        }
