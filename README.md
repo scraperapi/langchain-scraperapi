@@ -1,6 +1,6 @@
-# langchain-scraperapi
+# Langchain ScraperAPI Integration
 
-This package contains the LangChain integration with ScraperAPI
+This package contains the LangChain integration with ScraperAPI.
 
 ## Installation
 
@@ -30,7 +30,7 @@ tool.invoke("url: http://example.com", "output_format": "markdown")
 ```python
 from langchain_scraperapi import ScraperAPIGoogleSearchTool
 
-tool = ScraperAPITool()
+tool = ScraperAPIGoogleSearchTool()
 tool.invoke("query": "What is ScraperAPI?")
 ```
 
@@ -41,6 +41,8 @@ tool.invoke("query": "What is ScraperAPI?")
 ```python
 from langchain_scraperapi import ScraperAPIAmazonSearchTool
 
-tool = ScraperAPITool()
+tool = ScraperAPIAmazonSearchTool()
 tool.invoke("query": "office chairs", "output_format": "csv")
 ```
+
+For a full list of parameters and more information, refer to the ScraperAPI Python docs: https://docs.scraperapi.com/python/making-requests/structured-data-collection-method
