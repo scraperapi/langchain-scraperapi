@@ -45,6 +45,7 @@ def test_scraper_tool_run_text(scraper_tool):
     assert "this domain is for use in illustrative examples" in result.lower()
     assert "<!doctype html>" not in result.lower() # no html tags
 
+
 def test_scraper_tool_run_markdown(scraper_tool):
     """Test scraping with markdown output format."""
     result = scraper_tool.invoke({"url": "http://example.com", "output_format": "markdown"})
@@ -52,6 +53,7 @@ def test_scraper_tool_run_markdown(scraper_tool):
     assert "# Example Domain" in result
     assert "illustrative examples" in result
     assert "](https://www.iana.org/domains/example)" in result # check for link markdown
+
 
 @pytest.mark.asyncio
 async def test_scraper_tool_arun_html(scraper_tool):
@@ -75,6 +77,7 @@ def test_google_search_tool_run_json(google_search_tool):
         assert len(data["organic_results"]) > 0
     except json.JSONDecodeError:
         pytest.fail("Google search result is not valid JSON")
+
 
 def test_google_search_tool_run_csv(google_search_tool):
     """Test Google search with CSV output format."""

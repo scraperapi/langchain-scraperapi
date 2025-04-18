@@ -20,7 +20,8 @@ from langchain_scraperapi.tools import (
     ScraperAPIAmazonSearchToolInput,
 )
 
-# --- Fixtures ---
+
+pytestmark = pytest.mark.allow_hosts("127.0.0.1")
 
 @pytest.fixture
 def mock_env_api_key(monkeypatch):
@@ -33,7 +34,6 @@ def scraper_api_wrapper(mock_env_api_key):
 @pytest.fixture
 def scraper_api_structured_wrapper(mock_env_api_key):
     return ScraperAPIStructuredWrapper()
-
 
 # --- Test ScraperAPIWrapper ---
 
@@ -126,8 +126,6 @@ def test_scraper_api_wrapper_scrape_connection_error(mock_get, scraper_api_wrapp
     )
 
 @pytest.mark.asyncio
-@pytest.mark.allow_hosts(['127.0.0.1', '::1']) # due to incompatibility between pytest-socket and asyncio
-# https://github.com/pytest-dev/pytest-asyncio/issues/160
 async def test_scraper_api_wrapper_scrape_async_success(scraper_api_wrapper):
     
     mock_response = AsyncMock()
@@ -168,7 +166,7 @@ async def test_scraper_api_wrapper_scrape_async_success(scraper_api_wrapper):
     assert result == "<html>Async Success</html>"
 
 @pytest.mark.asyncio
-@pytest.mark.allow_hosts(['127.0.0.1', '::1'])
+
 async def test_scraper_api_wrapper_scrape_async_with_params(scraper_api_wrapper):
 
     mock_response = AsyncMock()
@@ -223,7 +221,7 @@ async def test_scraper_api_wrapper_scrape_async_with_params(scraper_api_wrapper)
     assert result == "Async Success Text"
 
 @pytest.mark.asyncio
-@pytest.mark.allow_hosts(['127.0.0.1', '::1'])
+
 async def test_scraper_api_wrapper_scrape_async_http_error(scraper_api_wrapper):
 
     mock_response = AsyncMock(spec=aiohttp.ClientResponse)
@@ -328,7 +326,7 @@ def test_structured_wrapper_amazon_search(mock_get, scraper_api_structured_wrapp
 
 
 @pytest.mark.asyncio
-@pytest.mark.allow_hosts(['127.0.0.1', '::1'])
+
 async def test_structured_wrapper_google_search_async(scraper_api_structured_wrapper):
 
     mock_response = AsyncMock(spec=aiohttp.ClientResponse)
@@ -377,7 +375,7 @@ async def test_structured_wrapper_google_search_async(scraper_api_structured_wra
 
 
 @pytest.mark.asyncio
-@pytest.mark.allow_hosts(['127.0.0.1', '::1'])
+
 async def test_structured_wrapper_amazon_search_async(scraper_api_structured_wrapper):
 
     mock_response = AsyncMock(spec=aiohttp.ClientResponse)
@@ -461,7 +459,7 @@ def test_scraper_tool_run_error(mock_scrape, scraper_tool):
 
 
 @pytest.mark.asyncio
-@pytest.mark.allow_hosts(['127.0.0.1', '::1'])
+
 @patch.object(ScraperAPIWrapper, 'scrape_async', new_callable=AsyncMock)
 async def test_scraper_tool_arun(mock_scrape_async, scraper_tool):
     mock_scrape_async.return_value = "Async scraped content"
@@ -482,7 +480,7 @@ async def test_scraper_tool_arun(mock_scrape_async, scraper_tool):
     assert result == "Async scraped content"
 
 @pytest.mark.asyncio
-@pytest.mark.allow_hosts(['127.0.0.1', '::1'])
+
 @patch.object(ScraperAPIWrapper, 'scrape_async', new_callable=AsyncMock)
 async def test_scraper_tool_arun_error(mock_scrape_async, scraper_tool):
     mock_scrape_async.side_effect = ConnectionError("Async connection failed")
@@ -541,7 +539,7 @@ def test_google_search_tool_run_error(mock_search, google_search_tool):
     mock_search.assert_called_once()
 
 @pytest.mark.asyncio
-@pytest.mark.allow_hosts(['127.0.0.1', '::1'])
+
 @patch.object(ScraperAPIStructuredWrapper, 'google_search_async', new_callable=AsyncMock)
 async def test_google_search_tool_arun(mock_search_async, google_search_tool):
     mock_search_async.return_value = '{"async_google_data": "found"}'
@@ -566,7 +564,7 @@ async def test_google_search_tool_arun(mock_search_async, google_search_tool):
     assert result == '{"async_google_data": "found"}'
 
 @pytest.mark.asyncio
-@pytest.mark.allow_hosts(['127.0.0.1', '::1'])
+
 @patch.object(ScraperAPIStructuredWrapper, 'google_search_async', new_callable=AsyncMock)
 async def test_google_search_tool_arun_error(mock_search_async, google_search_tool):
     mock_search_async.side_effect = Exception("Async Search failed")
@@ -623,7 +621,7 @@ def test_amazon_search_tool_run_error(mock_search, amazon_search_tool):
     mock_search.assert_called_once()
 
 @pytest.mark.asyncio
-@pytest.mark.allow_hosts(['127.0.0.1', '::1'])
+
 @patch.object(ScraperAPIStructuredWrapper, 'amazon_search_async', new_callable=AsyncMock)
 async def test_amazon_search_tool_arun(mock_search_async, amazon_search_tool):
     mock_search_async.return_value = '{"async_amazon_data": "found"}'
@@ -642,7 +640,7 @@ async def test_amazon_search_tool_arun(mock_search_async, amazon_search_tool):
     assert result == '{"async_amazon_data": "found"}'
 
 @pytest.mark.asyncio
-@pytest.mark.allow_hosts(['127.0.0.1', '::1'])
+
 @patch.object(ScraperAPIStructuredWrapper, 'amazon_search_async', new_callable=AsyncMock)
 async def test_amazon_search_tool_arun_error(mock_search_async, amazon_search_tool):
     mock_search_async.side_effect = TimeoutError("Amazon Timeout")
