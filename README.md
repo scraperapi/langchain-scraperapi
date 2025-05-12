@@ -1,6 +1,6 @@
-# langchain-scraperapi
+# Langchain ScraperAPI Integration
 
-This package contains the LangChain integration with ScraperAPI
+This package contains the LangChain integration with ScraperAPI.
 
 ## Installation
 
@@ -8,38 +8,41 @@ This package contains the LangChain integration with ScraperAPI
 pip install -U langchain-scraperapi
 ```
 
-And you should configure credentials by setting the following environment variables:
+And you should configure credentials by setting the environment variable `SCRAPERAPI_API_KEY`.
 
-* TODO: fill this out
+## Tools
 
-## Chat Models
+### ScraperAPITool
 
-`ChatScraperAPI` class exposes chat models from ScraperAPI.
-
-```python
-from langchain_scraperapi import ChatScraperAPI
-
-llm = ChatScraperAPI()
-llm.invoke("Sing a ballad of LangChain.")
-```
-
-## Embeddings
-
-`ScraperAPIEmbeddings` class exposes embeddings from ScraperAPI.
+`ScraperAPITool` exposes the web scraping tool from ScraperAPI.
 
 ```python
-from langchain_scraperapi import ScraperAPIEmbeddings
+from langchain_scraperapi import ScraperAPITool
 
-embeddings = ScraperAPIEmbeddings()
-embeddings.embed_query("What is the meaning of life?")
+tool = ScraperAPITool()
+tool.invoke("url: http://example.com", "output_format": "markdown")
 ```
 
-## LLMs
-`ScraperAPILLM` class exposes LLMs from ScraperAPI.
+### ScraperAPIGoogleSearchTool
+
+`ScraperAPIGoogleSearchTool` allows the scraping of Google search results in `json` or `csv` format.
 
 ```python
-from langchain_scraperapi import ScraperAPILLM
+from langchain_scraperapi import ScraperAPIGoogleSearchTool
 
-llm = ScraperAPILLM()
-llm.invoke("The meaning of life is")
+tool = ScraperAPIGoogleSearchTool()
+tool.invoke("query": "What is ScraperAPI?")
 ```
+
+### ScraperAPIAmazonSearchTool
+
+`ScraperAPIAmazonSearchTool` allows the scraping of Amazon search results in `json` or `csv` format.
+
+```python
+from langchain_scraperapi import ScraperAPIAmazonSearchTool
+
+tool = ScraperAPIAmazonSearchTool()
+tool.invoke("query": "office chairs", "output_format": "csv")
+```
+
+For a full list of parameters and more information, refer to the ScraperAPI Python docs: https://docs.scraperapi.com/python/making-requests/structured-data-collection-method
